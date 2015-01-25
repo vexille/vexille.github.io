@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Whose toe was it, Walter?</title>
+        <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Anonymous+Pro:700' type='text/css'>
+        <link rel="stylesheet" href="theaterStyles.css">
+    </head>
+    
+    <body>
+        <div id="wrapper">
+            <div id="content">
+                <div class="story">
+                    <h2>Collective Karma</h2>
+                    <div id="Narration-xxx"></div>
+                    <table class="decisionList">
+                        <tr class="option">
+                            <td id="option1" class="optionTd"></td>
+                            <td class="statistic" id="statistics1" data-count="7"></td>
+                        </tr>
+                        <tr class="option">
+                            <td id="option2" class="optionTd"></td>
+                            <td class="statistic" id="statistics2" data-count="3"></td>
+                        </tr>
+                        <tr class="option">
+                            <td id="option3" class="optionTd"></td>
+                            <td class="statistic" id="statistics3" data-count="16"></td>
+                        </tr>
+                    </table>
+                    <div class="globalKarma"></div>
+<!--                    <ul class="optionList">
+                        <li class="option"><span id="option1" class="optionSpan"></span><span class="statistic" id="statistics1" data-count="7"></span></li>
+                        <li class="option"><span id="option2" class="optionSpan"></span><span class="statistic" id="statistics2" data-count="3"></span></li>
+                        <li class="option"><span id="option3" class="optionSpan"></span><span class="statistic" id="statistics3" data-count="16"></span></li>
+                        <li class="globalKarma"><span class="floatClear">&nbsp;</span></li>
+                    </ul>                        -->
+<!--                    <ul class="statisticList">
+                        <li id="statistics1" class="statistic" data-count="7">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; 25.5%</li>
+                        <li id="statistics2" class="statistic" data-count="3">&#x2588;&#x2588;&#x2588;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; 15%</li>
+                        <li id="statistics3" class="statistic" data-count="16">&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2588;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500;&#x2500; 60.1%</li>
+                        <li class="globalKarma"></li>
+                         &#x2588;&#x2588;&#x2588;&#x2588;&#x2590;&#x2590;&#x2590;&#x2590;&#x2590;&#x2590;&#x2590; 20% 
+                    </ul>-->
+<!--                    <span class="floatClear"></span>-->
+                </div>
+            </div>
+            <div id="prompt">&nbsp;</div>
+        </div>
+
+        <script src="../../js/libs/jquery.min.js"></script>
+        <script src="../../js/libs/theater.js"></script>
+        <script>
+            (function () {
+                "use strict";
+
+                var theater = new TheaterJS();
+                var perfectActor = { speed:  1, accuracy:  1, invincibility: 1 };
+
+                theater
+                    .describe("Narration", 	perfectActor, "#Narration-xxx")
+                    .describe("Option1", 	{ speed: .9, accuracy: .8, invincibility: 6 }, "#option1")
+                    .describe("Option2", 	{ speed: .9, accuracy: .8, invincibility: 6 }, "#option2")
+                    .describe("Option3", 	{ speed: .9, accuracy: .8, invincibility: 6 }, "#option3")
+                
+                theater
+                    .on("say:start, erase:start", function (eventName) {
+                        var self    = this,
+                            current = self.current.voice;
+
+                        self.utils.addClass(current, "saying");
+                    })
+                    .on("say:end, erase:end", function (eventName) {
+                        var self    = this,
+                            current = self.current.voice;
+
+                        self.utils.removeClass(current, "saying");
+                    });
+
+                theater
+                    .write("Narration: He suspects that the culprits might be the very people who, uh, soiled your rug, and you are in a unique position to confirm or, uh, disconfirm that suspicion.")
+                    .write(200)
+                    .write("Option1: [1] Hey, relax man, I'm a brother shamus. Hey, relax man, I'm a brother shamus. Hey, relax man, I'm a brother shamus.")
+                    .write("Option2: [2] That wasn't her toe.")
+                    .write("Option3: [3] Wave of the future, Dude. 100% electronic.")
+                    .write(onTheaterFinish);
+            
+                theater.play();
+                
+                function onTheaterFinish() {
+                    $(".option").addClass("selectable");
+                    $(".selectable").click(function() {
+                        writeStatisticTheater();
+                        $(this).addClass("selected");
+                    });
+                    
+                    setInterval(function() {
+                        $("#prompt").toggleClass("saying"); 
+                    }, 400)
+                }
+                
+                function onStatisticFinish() {
+                    console.log("statistics printed");
+                }
+                
+                function writeStatisticTheater() {
+                    $(".selectable").click(function(){}).removeClass("selectable");
+                    var innerTheater = new TheaterJS();
+                    innerTheater.describe("karma", { speed:  .4, accuracy:  1, invincibility: 1 }, ".globalKarma");
+                    innerTheater.write("karma: COLLECTIVE KARMA");
+
+                    setupStatisticTheater(1, innerTheater);
+                    setupStatisticTheater(2, innerTheater);
+                    setupStatisticTheater(3, innerTheater);
+
+                    innerTheater.write(onStatisticFinish);
+                }
+                
+                function setupStatisticTheater(index, theTheater) {
+                    var emptyChar = "─",
+                        filledChar = "█",
+                        totalChars = 18;
+                    
+                    var total = 26;
+                    var $statsLi = $("#statistics" + index);
+                    var count = $statsLi.data("count");
+                    var perc = count / total;
+                    var roundedPerc = parseFloat(Math.round((perc * 100) * 100) / 100).toFixed(2);
+                    
+                    $statsLi.html("");
+                    
+                    var filledChars = Math.round(totalChars * perc),
+                        emptyChars = totalChars - filledChars;
+                
+                    var text = "";
+                    for (var i = 0; i < filledChars; i++) {
+                        text += filledChar;
+                    }
+                    for (var i = 0; i < emptyChars; i++) {
+                        text += emptyChar;
+                    }
+                    
+                    text += " " + roundedPerc + "%";
+                    
+                    theTheater.describe("stats"+index, { speed:  .6, accuracy:  1, invincibility: 1 }, "#statistics"+index);
+                    theTheater.write("stats"+index+": "+text);
+               }
+            })();
+        </script>
+    </body>
+</html>
