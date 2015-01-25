@@ -1,0 +1,143 @@
+*,*:before,*:after
+{
+    box-sizing: border-box;
+}
+html,body
+{
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+body::-webkit-scrollbar { 
+    display: none; 
+}
+
+table.decisionList {
+    margin: 1em 0;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+table.decisionList td {
+    padding: 0.2em 0.8em;
+}
+
+.optionTd {
+    width: 60%;
+}
+
+.statistic {
+    width: 35%;
+    vertical-align: top;
+}
+
+.globalKarma {
+    float: right;
+    width: 35%;
+    text-align: left;
+}
+
+.selectable:hover {
+    cursor: pointer;
+    background-color: #6EFF86;
+    color: #011204;
+    box-shadow: 1px 0px 10px #7EDE8E;
+    text-shadow: 1px 0px 10px #021706;
+}
+
+.selectable:active {
+    background-color: #FFF;
+}
+
+.selected {
+    cursor: default;
+    background-color: #8FFFA1;
+    color: #011204;
+    box-shadow: 1px 0px 10px #7EDE8E;
+    text-shadow: 1px 0px 10px #021706;
+}
+
+#wrapper
+{   
+    font-size: 190%;
+    font-weight: 400;
+    line-height: 1.6;
+    padding: 10% 10% 5%;
+}
+body
+{
+    background-color: #011204;
+    color: #6EFF86;
+    cursor: default;
+    font-family: 'Anonymous Pro', serif;
+    font-size: 12px;
+    transition: background-color 200ms ease-out;
+    webkit-transition: background-color 200ms ease-out;
+
+    /*    -webkit-stroke-width: 5.3px;
+        -webkit-stroke-color: #FFFFFF;
+        -webkit-fill-color: #FFFFFF;*/
+    text-shadow: 1px 0px 15px #B3FFBF;
+
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+body.light
+{
+    background-color: #ededed;
+    color: #222;
+}
+@-webkit-keyframes caret
+{
+    0%, 100%
+    {
+        opacity: 1;
+    }
+    50%
+    {
+        opacity: 0;
+    }
+}
+@keyframes caret
+{
+    0%, 100%
+    {
+        opacity: 1;
+    }
+    50%
+    {
+        opacity: 0;
+    }
+}
+
+.saying:after
+{
+    animation: caret 500ms infinite;
+    content: "\2590";
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 0.8em;
+    line-height: 1;
+    opacity: 1;
+    vertical-align: baseline;
+    webkit-animation: caret 500ms infinite;
+}
+
+#prompt.activePrompt:before {
+    animation: caret 500ms infinite;
+    content: "\258C";
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 0.8em;
+    line-height: 1;
+    opacity: 1;
+    vertical-align: baseline;
+    webkit-animation: caret 500ms infinite;
+}
+
+.floatClear {
+    clear: both;
+}
